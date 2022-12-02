@@ -5,9 +5,13 @@ type CardProps = {
 }
 
 const Card = (props: CardProps) => {
-    const borderColor = useColorModeValue("whiteAlpha.300", "gray.600");
-    const color = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
-    const hoverColor = useColorModeValue("blackAlpha.200", "whiteAlpha.100");
+    // const borderColor = useColorModeValue("gray.200", "gray.600");
+    // const color = useColorModeValue("blackAlpha.50", "whiteAlpha.50");
+    // const hoverColor = useColorModeValue("blackAlpha.200", "whiteAlpha.100");
+
+    const borderColor = useColorModeValue("gray.200", "gray.600");
+    const color = useColorModeValue("gray.100", "whiteAlpha.100");
+    const hoverColor = useColorModeValue("gray.200", "whiteAlpha.200");
 
     return (
         <HStack
@@ -18,6 +22,7 @@ const Card = (props: CardProps) => {
             borderColor={borderColor}
             background={color}
             _hover={{ bg: hoverColor }}
+            transitionDuration="200ms"
         >
             {props.children}
         </HStack>
