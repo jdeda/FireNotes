@@ -1,10 +1,30 @@
-import { firestore } from "firebase-admin"
-const converter = <T>() => ({
-    toFirestore: (data: T) => data,
-    fromFirestore: (snap: FirebaseFirestore.QueryDocumentSnapshot) =>
-        snap.data() as T
-})
+import { Folder, Note } from "../model/model";
 
-function firestore() {
-    throw new Error('Function not implemented.')
+type DataClient = {
+    dataToFolders(data: any): Folder[]
+
+}
+export const dataClient: DataClient = {
+    dataToFolders(data: any): Folder[] {
+        if (!Array.isArray(data)) { return []; }
+        if (data.length == 0) { return []; }
+        const converted = data.map((folder: any): Folder => {
+            const notes: Note[] = folder.notes.map((note: any) => {
+                return {
+                    id: note.id,
+                    title: note.title,
+                    description: note.description,
+                    lastEdit: note.lastEdit,
+                    folderID: note.folderID,
+                }
+            });
+            const folderF: Folder = {
+                id: folder.id,
+                name: folder.name,
+                notes: notes
+            };
+            return folderF;
+        });
+        return converted;
+    }
 }

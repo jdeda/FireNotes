@@ -17,9 +17,6 @@ const analytics = getAnalytics(firebaseApp);
 export const firebaseDB = getFirestore(firebaseApp);
 
 
-
-
-
 // FIRESTORE
 // rules_version = '2';
 // service cloud.firestore {

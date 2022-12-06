@@ -10,6 +10,7 @@ import Card from "./Card";
 import uuid from 'react-uuid';
 import { AppContext, AppProps } from "../App";
 import React from "react";
+import apiClient from "../clients/apiClient";
 
 
 
@@ -46,26 +47,19 @@ const HomePage = () => {
     const [backupProps, setBackupProps] = useState<HomePageProps>(initial);
     const searchBar = useRef<HTMLInputElement>(null);
 
-    // Init state w/ app context.
-    React.useEffect(() => {
-        if (appProps) {
-            setProps({ folders: appProps.folders });
-            setBackupProps({ folders: appProps.folders });
-        }
-    }, []);
 
     // Fetch all folders from database.
-    // React.useEffect(() => {
-    //     let buildsJSON = apiClient.getAllFolders().then((folders) => {
-    //         setProps((prevState) => {
-    //             return ({
-    //                 folders: folders
-    //             })
-    //         })
-    //     })
-    //         .catch(e => alert(`Homepage init failed: ${e.message}`))
+    React.useEffect(() => {
+        let buildsJSON = apiClient.getAllFolders().then((folders) => {
+            setProps((prevState) => {
+                return ({
+                    folders: folders
+                })
+            });
+        })
+            .catch(e => alert(`Homepage init failed: ${e.message}`))
 
-    // }, []);
+    }, []);
 
     function saveState() {
         if (appProps === undefined) {
