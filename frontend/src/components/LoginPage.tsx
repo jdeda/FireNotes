@@ -7,7 +7,8 @@ import { ChangeEvent, useContext, useState } from "react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { User } from "../model/model";
+import apiClient from "../clients/apiClient";
+import { UserProps } from "../model/model";
 
 
 const CFaUserAlt = chakra(FaUserAlt);
@@ -36,31 +37,16 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
-        const user: User = {
-            id: "1",
-            first_name: "jesse",
-            last_name: "deda",
-            username: "jdeda",
-            avatar: "foobar",
-        }
-        setUserProps(() => user);
-        navigate("/home");
-
-        // const testing = await apiClient.test();
-        // console.log(testing);
-        // return;
-
-        // console.log("react -- signing in")
-        // apiClient.signin(props.email, props.password).then(userProps => {
-        //     console.log(userProps);
-        //     setUserProps(() => userProps);
-        //     navigate("/home");
-
-        // }).catch(err => {
-        //     console.log("needs more protein");
-        //     console.log(err);
-        //     setError(() => err);
-        // });
+        console.log("react -- signing in")
+        apiClient.signin(props.email, props.password).then(userProps => {
+            console.log(userProps);
+            setUserProps(() => userProps);
+            navigate("/home");
+        }).catch(err => {
+            console.log("needs more protein");
+            console.log(err);
+            setError(() => err);
+        });
     }
 
     function updateLoginReady(): void {

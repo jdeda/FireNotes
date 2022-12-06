@@ -1,3 +1,6 @@
+import { User } from "firebase/auth"
+
+
 export type Note = {
     id: string
     title: string
@@ -18,14 +21,12 @@ export function formatDate(date: Date): string {
     return formattedDate;
 }
 
-export type User = {
-    id: string,
-    first_name: string,
-    last_name: string,
-    username: string,
-    avatar: string,
-}
 
+export type UserProps = {
+    username: string;
+    email: string
+    user: User
+}
 export type RoutingErrorProps = {
 
 }
