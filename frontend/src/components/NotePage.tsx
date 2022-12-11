@@ -95,7 +95,11 @@ const NotePage = () => {
                     onChange={updateNoteTitle}
                 >
                     <EditablePreview minWidth="100%" />
-                    <EditableInput />
+                    <EditableInput
+                        outlineColor={'orange.500'}
+                        borderColor={'orange.500'}
+                        sx={{ focusBorderColor: 'orange.500' }}
+                    />
                 </Editable>
             </Heading>
             <VStack
@@ -108,6 +112,7 @@ const NotePage = () => {
                     border={"none"}
                     height="80vh"
                     sx={{ resize: "none" }}
+                    focusBorderColor={'orange.500'}
 
                 />
             </VStack>
