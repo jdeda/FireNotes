@@ -2,15 +2,10 @@ import { Avatar, Button, Center, Menu, MenuButton, MenuDivider, MenuItem, MenuLi
 import { useContext, useState } from "react";
 import { HiLogout } from 'react-icons/hi';
 import { useNavigate } from "react-router-dom";
-import { AppContext, UserContext } from "../App";
+import { UserContext } from "../App";
 import apiClient from "../clients/apiClient";
 
-export type AccountButtonProps = {
-
-}
-
 const AccountButton = () => {
-    const [appProps, setAppProps] = useContext(AppContext);
     const [userProps, setUserProps] = useContext(UserContext);
     const [error, setError] = useState<string>("");
     const navigate = useNavigate();

@@ -15,7 +15,6 @@ type NoteProps = {
     note: Note
 }
 
-
 const initial: NoteProps = {
     note: {
         id: uuid(),
@@ -60,7 +59,6 @@ const NotePage = () => {
         setAppProps(newAppState);
         apiClient.saveAll(newAppState.folders);
     }
-
 
     // Updates title. If its blank, set it as "Untitled".
     const updateNoteTitle = (newTitle: string) => {

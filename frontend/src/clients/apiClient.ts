@@ -1,9 +1,8 @@
-import { Folder, Note, UserProps } from "../model/model"
-import { getAuth, createUserWithEmailAndPassword, User, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { firebaseApp, firebaseDB } from "../config/config"
-import { getFirestore, getDocs, setDoc, addDoc, updateDoc, deleteDoc, collection, doc, getDoc } from "firebase/firestore";
 import { FirebaseApp } from "firebase/app";
-import uuid from "react-uuid";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { firebaseApp, firebaseDB } from "../config/config";
+import { Folder, UserProps } from "../model/model";
 import { dataClient } from "./dataClient";
 
 function getCurrentAuthUser(app?: FirebaseApp | undefined): User {
@@ -14,26 +13,11 @@ function getCurrentAuthUser(app?: FirebaseApp | undefined): User {
 }
 
 type APIClient = {
-    // AUTH.
     signup(email: string, password: string): Promise<UserProps>,
     signin(email: string, password: string): Promise<UserProps>,
     signout(): Promise<boolean>,
-
-    // SAVE ALL.
     saveAll(folders: Folder[]): Promise<boolean>,
-
-    // FOLDER.
     getAllFolders(): Promise<Folder[]>,
-    // createFolder(): Promise<boolean>,
-    // deleteFolder(folderID: string): Promise<boolean>,
-    // getFolder(folderID: string): Promise<Folder>,
-    // updateFolder(folderID: string, folder: Folder): Promise<boolean>,
-
-    // NOTE.
-    // getNote(noteID: string): Promise<Note>,
-    // updateNote(folderID: string, noteID: string, note: Note): Promise<boolean>,
-    // createNote(folderID: string): Promise<boolean>,
-    // deleteNote(folderID: string, noteId: string): Promise<boolean>
 }
 
 const apiClient: APIClient = {

@@ -1,4 +1,5 @@
-import { Alert, ChakraProvider, Container, HStack, Spacer } from "@chakra-ui/react";
+import { ChakraProvider, Container, HStack, Spacer } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import FolderPage from "./components/FolderPage";
@@ -8,27 +9,12 @@ import NotePage from "./components/NotePage";
 import SignupPage from "./components/SignupPage";
 import ToggleColorModeButton from "./components/ToggleColorModeButton";
 import { Folder, RoutingErrorProps, UserProps } from "./model/model";
-import React, { useEffect, useState } from "react";
-import apiClient from "./clients/apiClient";
 
 const App = () => {
   const [userProps, setUserProps] = useState<UserProps | undefined>(userContextInitialState);
   const [errorProps, setErrorProps] = useState<RoutingErrorProps | undefined>(routingErrorContextInitialState);
   const [appProps, setAppProps] = useState<AppProps>(appContextInitialState);
   const errorNav = <Navigate replace to={"/error"} />;
-
-  // // Warn user on closing tab.
-  // window.onbeforeunload = (e) => {
-  //   e.preventDefault();
-  //   return ""; // Browsers do not allow custom messages anymore.
-  // };
-
-  // // Save our state.
-  // window.onunload = () => {
-  //   console.log("OH NO");
-  //   console.log(appProps);
-  //   apiClient.saveAll(appProps.folders);
-  // };
 
   return (
     <ChakraProvider>

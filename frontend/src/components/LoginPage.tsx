@@ -8,8 +8,6 @@ import { FaLock, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import apiClient from "../clients/apiClient";
-import { UserProps } from "../model/model";
-
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);

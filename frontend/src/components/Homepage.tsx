@@ -1,16 +1,14 @@
 import { AddIcon, DeleteIcon, SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputRightElement, Spacer, Text, VStack } from "@chakra-ui/react";
-import { useContext, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { AiFillFolderOpen } from 'react-icons/ai';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import uuid from 'react-uuid';
+import { AppContext, AppProps } from "../App";
+import apiClient from "../clients/apiClient";
 import { Folder } from "../model/model";
 import AccountButton from "./AccountButton";
 import Card from "./Card";
-import uuid from 'react-uuid';
-import { AppContext, AppProps } from "../App";
-import React from "react";
-import apiClient from "../clients/apiClient";
-import { useLocation } from 'react-router-dom';
 
 export type HomePageProps = {
     folders: Folder[]
@@ -41,16 +39,8 @@ const HomePage = () => {
             .catch(e => alert(`Homepage init failed: ${e.message}`));
     }, []);
 
-    // React.useEffect(() => {
-    //     console.log('handle route change here', location);
-    //     saveState();
-    // }, [location]);
 
     function saveState(newState: AppProps) {
-        // if (appProps === undefined) { return; }
-        // console.log("saving state");
-        // const newState: AppProps = structuredClone(appProps);
-        // newState.folders = structuredClone(props.folders);
         setAppProps(newState);
         apiClient.saveAll(newState.folders);
     }

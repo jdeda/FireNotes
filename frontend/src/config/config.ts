@@ -1,5 +1,5 @@
-import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -15,14 +15,3 @@ const firebaseConfig = {
 export const firebaseApp = initializeApp(firebaseConfig);
 const analytics = getAnalytics(firebaseApp);
 export const firebaseDB = getFirestore(firebaseApp);
-
-
-// FIRESTORE
-// rules_version = '2';
-// service cloud.firestore {
-//     match / databases / { database } / documents {
-//         match / { document=**} {
-//       allow read, write: if false;
-//         }
-//     }
-// }
