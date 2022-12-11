@@ -15,7 +15,7 @@ FireNotes is a simple note taking web app. Notes are plain text files stored in 
 - Remote database
 - User-specific data
 
-### 🧰 ChakraUI
+### ⚡ ChakraUI
 - System light/dark mode
 - Custom theme
 - Forms, Buttons, Alerts
