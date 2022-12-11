@@ -91,8 +91,9 @@ const HomePage = () => {
                 <AccountButton />
             </HStack>
             <HStack paddingTop={4}>
-                <InputGroup width="50vw">
+                <InputGroup width="50vw" colorScheme="orange">
                     <Input
+                        focusBorderColor='orange.500'
                         ref={searchBar}
                         pr='4.5rem'
                         placeholder="Search by name"

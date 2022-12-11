@@ -116,17 +116,23 @@ const FolderPage = () => {
                         defaultValue={props.folder.name}
                         placeholder={props.folder.name}
                         onChange={updateFolderName}
+
                     >
                         <EditablePreview minWidth="100%" />
-                        <EditableInput />
+                        <EditableInput
+                            outlineColor={'orange.500'}
+                            borderColor={'orange.500'}
+                        />
                     </Editable>
                 </Heading>
                 <Spacer />
                 <AccountButton />
             </HStack>
-            <HStack paddingTop={4}>
+            <Box />
+            <HStack paddingTop="3px">
                 <InputGroup width="50vw">
                     <Input
+                        focusBorderColor='orange.500'
                         ref={searchBar}
                         pr='4.5rem'
                         placeholder="Search by name"
