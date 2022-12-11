@@ -2,28 +2,29 @@ import { Avatar, Button, Center, Menu, MenuButton, MenuDivider, MenuItem, MenuLi
 import { useContext, useState } from "react";
 import { HiLogout } from 'react-icons/hi';
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { AppContext, UserContext } from "../App";
+import apiClient from "../clients/apiClient";
 
 export type AccountButtonProps = {
 
 }
 
 const AccountButton = () => {
+    const [appProps, setAppProps] = useContext(AppContext);
     const [userProps, setUserProps] = useContext(UserContext);
     const [error, setError] = useState<string>("");
     const navigate = useNavigate();
 
     const signOut = () => {
-        setUserProps(() => undefined);
-        navigate("/login");
-        // apiClient.signout().then(success => {
-        //     setUserProps(() => undefined);
-        //     navigate("/login");
-        // }).catch(err => {
-        //     console.log("needs more protein");
-        //     console.log(err);
-        //     setError(() => err);
-        // });
+        apiClient.signout().then(success => {
+            // apiClient.saveAll(appProps.folders);
+            setUserProps(() => undefined);
+            navigate("/login");
+        }).catch(err => {
+            console.log("needs more protein");
+            console.log(err);
+            setError(() => err);
+        });
     }
 
     return (

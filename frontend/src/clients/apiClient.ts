@@ -19,10 +19,13 @@ type APIClient = {
     signin(email: string, password: string): Promise<UserProps>,
     signout(): Promise<boolean>,
 
+    // SAVE ALL.
+    saveAll(folders: Folder[]): Promise<boolean>,
+
     // FOLDER.
     getAllFolders(): Promise<Folder[]>,
-    createFolder(): Promise<boolean>,
-    deleteFolder(folderID: string): Promise<boolean>,
+    // createFolder(): Promise<boolean>,
+    // deleteFolder(folderID: string): Promise<boolean>,
     // getFolder(folderID: string): Promise<Folder>,
     // updateFolder(folderID: string, folder: Folder): Promise<boolean>,
 
@@ -34,6 +37,22 @@ type APIClient = {
 }
 
 const apiClient: APIClient = {
+    async saveAll(folders: Folder[]): Promise<boolean> {
+        const user = getCurrentAuthUser(firebaseApp);
+        const docRef = doc(firebaseDB, user.uid, "folders");
+        if (folders.length == 0) {
+            await updateDoc(docRef, {
+                folders: "[]"
+            });
+        }
+        else {
+            await updateDoc(docRef, {
+                folders: JSON.stringify(folders)
+            });
+        }
+        return true;
+    },
+
     async signup(email: string, password: string): Promise<UserProps> {
         const auth = getAuth(firebaseApp);
         return createUserWithEmailAndPassword(auth, email, password)
@@ -85,24 +104,12 @@ const apiClient: APIClient = {
         const docRef = doc(firebaseDB, user.uid, "folders");
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-            const data = dataClient.dataToFolders(docSnap.data() as any);
+            const data = dataClient.dataToFolders(docSnap.data());
             return data;
         } else {
             await setDoc(doc(firebaseDB, user.uid, "folders"), []);
             return [];
         }
-    },
-
-    // Creates a new folder for the currently auth'd user.
-    createFolder: function (): Promise<boolean> {
-        const user = getCurrentAuthUser(firebaseApp);
-        throw new Error("Function not implemented.");
-    },
-
-    // Creates a new folder for the currently auth'd user.
-    deleteFolder: function (folderID: string): Promise<boolean> {
-        const user = getCurrentAuthUser(firebaseApp);
-        throw new Error("Function not implemented.");
     }
 }
 

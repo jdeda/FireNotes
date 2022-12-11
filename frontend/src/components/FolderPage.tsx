@@ -5,6 +5,7 @@ import { CgChevronLeft } from "react-icons/cg";
 import { Link, useParams } from "react-router-dom";
 import uuid from 'react-uuid';
 import { AppContext, AppProps, UserContext } from "../App";
+import apiClient from "../clients/apiClient";
 import { Folder, formatDate, Note } from "../model/model";
 import AccountButton from "./AccountButton";
 import Card from "./Card";
@@ -21,30 +22,12 @@ const initial: FolderPageProps = {
     }
 }
 
-const mock: FolderPageProps = {
-    folder: {
-        id: "0",
-        name: "Homework",
-        notes: ([1, 2, 3, 4].map(number => {
-            return {
-                folderID: `${0}`,
-                id: `${number}`,
-                title: `Complete homework #${number}`,
-                description: `Finish up homework #${number}`,
-                lastEdit: new Date()
-            }
-        }))
-    }
-}
-
 const FolderPage = () => {
     const [appProps, setAppProps] = useContext(AppContext);
     const [props, setProps] = useState<FolderPageProps>(initial);
     const [backupProps, setBackupProps] = useState<FolderPageProps>(initial);
-    const [userProps, setUserProps] = useContext(UserContext);
-    const [searchResults, setSearchResults] = useState<Note[]>([]);
     const searchBar = useRef<HTMLInputElement>(null);
-    const routeParams = useParams();
+
     const folderId = ((): string => {
         const route = window.location.pathname.split("/");
         const id = route[route.length - 1];
@@ -62,29 +45,13 @@ const FolderPage = () => {
         }
     }, []);
 
-    // async function runEffect() {
-    //     const folderId = "1";
-    //     let folder = await apiClient.getFolder(folderId);
-    //     const notes = await apiClient.getNotesByFolder(folderId);
-    //     folder.notes = notes;
-    //     setProps((prevState) => {
-    //         return ({
-    //             folder: folder
-    //         })
-    //     });
-    // }
-    // // Fetch all notes for this folder from database.
-    // React.useEffect(() => {
-    //     runEffect();
-    // }, []);
-
-    function saveState() {
-        if (!appProps) { return; }
-        const idx = appProps.folders.findIndex(folder => folder.id === props.folder.id);
+    function saveState(newState: FolderPageProps) {
+        let newAppState: AppProps = structuredClone(appProps);
+        const idx = newAppState.folders.findIndex(folder => folder.id === newState.folder.id);
         if (idx === -1) { return; }
-        const newState: AppProps = structuredClone(appProps);
-        newState.folders[idx] = props.folder;
-        setAppProps(newState);
+        newAppState.folders[idx] = newState.folder;
+        setAppProps(newAppState);
+        apiClient.saveAll(newAppState.folders);
     }
 
     function deleteNote(noteId: string) {
@@ -92,6 +59,7 @@ const FolderPage = () => {
         newState.folder.notes = newState.folder.notes.filter(note => note.id != noteId);
         setProps(newState);
         setBackupProps(newState);
+        saveState(newState);
     }
 
     function addNewNote() {
@@ -106,6 +74,7 @@ const FolderPage = () => {
         newState.folder.notes.push(newFolder);
         setProps(newState);
         setBackupProps(newState);
+        saveState(newState);
     }
 
 
@@ -128,14 +97,15 @@ const FolderPage = () => {
 
     const updateFolderName = (newName: string) => {
         console.log(newName);
-        let newState = structuredClone(props);
+        let newState: FolderPageProps = structuredClone(props);
         newState.folder.name = newName == "" ? "Untitled" : newName;
         setProps(newState);
+        saveState(newState);
     };
 
     return (
         <VStack alignItems='left' margin={10} >
-            <Link to={`/home`} onClick={saveState}>
+            <Link to={`/home`}>
                 <Button leftIcon={<CgChevronLeft />}>
                     Back
                 </Button>
@@ -189,7 +159,7 @@ const FolderPage = () => {
             >{props.folder.notes.map(note => (
                 <Box key={note.id}>
                     <Card>
-                        <Link to={`/note/${note.id}`} onClick={saveState}>
+                        <Link to={`/note/${note.id}`}>
                             <VStack spacing={1} alignItems="left">
                                 <Text as="b">{note.title}</Text>
                                 <Text>{formatDate(note.lastEdit)}</Text>

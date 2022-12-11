@@ -1,4 +1,3 @@
-
 import { AddIcon, DeleteIcon, SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Heading, HStack, Icon, IconButton, Input, InputGroup, InputRightElement, Spacer, Text, VStack } from "@chakra-ui/react";
 import { useContext, useRef, useState } from "react";
@@ -11,31 +10,11 @@ import uuid from 'react-uuid';
 import { AppContext, AppProps } from "../App";
 import React from "react";
 import apiClient from "../clients/apiClient";
-
-
+import { useLocation } from 'react-router-dom';
 
 export type HomePageProps = {
     folders: Folder[]
 }
-
-const mock: HomePageProps = {
-    folders: ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(number => {
-        const folder: Folder = {
-            id: `${number}`,
-            name: `Folder ${number}`,
-            notes: [
-                {
-                    folderID: `${number}`,
-                    id: `${number}`,
-                    title: `Complete homework #${number}`,
-                    description: `Finish up homework #${number}`,
-                    lastEdit: new Date()
-                }
-            ]
-        }
-        return folder;
-    }))
-};
 
 const initial: HomePageProps = {
     folders: []
@@ -46,28 +25,34 @@ const HomePage = () => {
     const [props, setProps] = useState<HomePageProps>(initial);
     const [backupProps, setBackupProps] = useState<HomePageProps>(initial);
     const searchBar = useRef<HTMLInputElement>(null);
-
+    const location = useLocation();
 
     // Fetch all folders from database.
     React.useEffect(() => {
-        let buildsJSON = apiClient.getAllFolders().then((folders) => {
-            setProps((prevState) => {
+        apiClient.getAllFolders().then((folders) => {
+            console.log("gottem");
+            console.log(folders);
+            setProps(() => {
                 return ({
                     folders: folders
                 })
             });
         })
-            .catch(e => alert(`Homepage init failed: ${e.message}`))
-
+            .catch(e => alert(`Homepage init failed: ${e.message}`));
     }, []);
 
-    function saveState() {
-        if (appProps === undefined) {
-            return;
-        }
-        const newState: AppProps = structuredClone(appProps);
-        newState.folders = structuredClone(props.folders);
+    // React.useEffect(() => {
+    //     console.log('handle route change here', location);
+    //     saveState();
+    // }, [location]);
+
+    function saveState(newState: AppProps) {
+        // if (appProps === undefined) { return; }
+        // console.log("saving state");
+        // const newState: AppProps = structuredClone(appProps);
+        // newState.folders = structuredClone(props.folders);
         setAppProps(newState);
+        apiClient.saveAll(newState.folders);
     }
 
     function deleteFolder(folderId: string) {
@@ -75,18 +60,20 @@ const HomePage = () => {
         newState.folders = newState.folders.filter(folder => folder.id != folderId);
         setProps(newState);
         setBackupProps(newState);
+        saveState(newState);
     }
 
     function addNewFolder() {
+        let newState: HomePageProps = structuredClone(props);
         const newFolder: Folder = {
             id: uuid(),
             name: "Untitled",
             notes: []
         }
-        let newState: HomePageProps = structuredClone(props);
         newState.folders.push(newFolder);
         setProps(newState);
         setBackupProps(newState);
+        saveState(newState);
     }
 
     function performSearch() {
@@ -101,6 +88,7 @@ const HomePage = () => {
             return nameLC.includes(searchVal)
         });
 
+        // Bad, this should be another prop...
         setProps({ folders: matches });
     };
 
@@ -147,7 +135,7 @@ const HomePage = () => {
             >{props.folders.map(folder => (
                 <Box key={folder.id}>
                     <Card>
-                        <Link to={`/folder/${folder.id}`} onClick={saveState}>
+                        <Link to={`/folder/${folder.id}`} onClick={() => saveState(appProps)}>
                             <HStack>
                                 <Icon as={AiFillFolderOpen} />
                                 <Text>{folder.name}</Text>
