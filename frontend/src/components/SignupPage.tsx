@@ -314,7 +314,7 @@ const LoginPage = () => {
                             width="full"
                             onClick={handleLogin}
                         >Signup</Button>
-                        <Link to="/login">
+                        <Link to="/signin">
                             <Button
                                 borderRadius={5}
                                 variant="link"

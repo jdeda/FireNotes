@@ -14,7 +14,7 @@ const AccountButton = () => {
         apiClient.signout().then(success => {
             // apiClient.saveAll(appProps.folders);
             setUserProps(() => undefined);
-            navigate("/login");
+            navigate("/signin");
         }).catch(err => {
             console.log("needs more protein");
             console.log(err);

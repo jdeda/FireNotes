@@ -35,9 +35,9 @@ const App = () => {
       <UserContext.Provider value={[userProps, setUserProps]}>
         <AppContext.Provider value={[appProps, setAppProps]}>
           <Routes>
-            <Route path="/" element={<Navigate replace to={userProps ? "/home" : "/login"} />} />
+            <Route path="/" element={<Navigate replace to={userProps ? "/home" : "/signin"} />} />
             <Route element={<AppWrap />}>
-              <Route path="/login" element={!userProps ? <LoginPage /> : (errorNav)} />
+              <Route path="/signin" element={!userProps ? <LoginPage /> : (errorNav)} />
               <Route path="/signup" element={!userProps ? <SignupPage /> : (errorNav)} />
               <Route path="/home" element={userProps ? (<HomePage />) : (errorNav)} />
               <Route path="/folder/:id" element={userProps ? (<FolderPage />) : (errorNav)} />

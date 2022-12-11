@@ -13,7 +13,7 @@ const ErrorPage = () => {
                     bg="orange.400"
                     colorScheme="orange"
                     width="full"
-                    onClick={() => navigate("/login")}
+                    onClick={() => navigate("/signin")}
                 >
                     Go back to login page
                 </Button>
