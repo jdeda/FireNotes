@@ -35,7 +35,7 @@ const AccountButton = () => {
             // _hover={{ bg: colorMode === 'light' ? 'gray.200' : 'gray.700' }}
             // backgroundColor={{ bg: colorMode !== 'light' ? 'gray.200' : 'gray.700' }}
             >
-                <Avatar bg="teal.500" />
+                <Avatar bg="orange.500" />
             </MenuButton>
             <MenuList alignItems={'center'}>
                 <Center>

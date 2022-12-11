@@ -98,8 +98,9 @@ const LoginPage = () => {
                 alignItems="center"
             >
 
-                <Image src="logo_00.png" width="20" alt="Oops!" />
-                <Heading color="teal.400">Welcome to Noteify!</Heading>
+                <Image src="newLogo.png" width="60" alt="Oops!" />
+                {/* <Image src="logo_00.png" width="20" alt="Oops!" /> */}
+                <Heading color="orange.400">Welcome to FireNotes!</Heading>
                 <Box minW={{ base: "60%", md: "400px" }}>
                     <Stack
                         spacing={4}
@@ -115,7 +116,7 @@ const LoginPage = () => {
                                     value={props.email}
                                     onChange={updateEmail}
 
-                                    focusBorderColor='teal.400'
+                                    focusBorderColor='orange.400'
                                     type="email"
                                     placeholder="Email"
                                 />
@@ -130,7 +131,7 @@ const LoginPage = () => {
                                 <Input
                                     value={props.password}
                                     onChange={updatePassword}
-                                    focusBorderColor='teal.400'
+                                    focusBorderColor='orange.400'
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                 />
@@ -152,8 +153,8 @@ const LoginPage = () => {
                             isDisabled={!props.loginReady}
                             borderRadius={5}
                             variant="solid"
-                            bg="teal.400"
-                            colorScheme="teal"
+                            bg="orange.400"
+                            colorScheme="orange"
                             width="full"
                             onClick={handleLogin}
                         >Signup</Button>
@@ -161,8 +162,8 @@ const LoginPage = () => {
                             <Button
                                 borderRadius={5}
                                 variant="link"
-                                color="teal.400"
-                                colorScheme="teal"
+                                color="orange.400"
+                                colorScheme="orange"
                                 width="full"
                             >Regisitered? Sign In</Button>
                         </Link>

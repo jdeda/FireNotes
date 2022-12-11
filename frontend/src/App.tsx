@@ -1,14 +1,28 @@
-import { ChakraProvider, Container, HStack, Spacer } from "@chakra-ui/react";
+import { ChakraProvider, Container, extendTheme, HStack, Spacer } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import ErrorPage from "./components/ErrorPage";
 import FolderPage from "./components/FolderPage";
 import HomePage from "./components/Homepage";
-import LoginPage from "./components/LoginPage";
+import LoginPage from "./components/SigninPage";
 import NotePage from "./components/NotePage";
 import SignupPage from "./components/SignupPage";
 import ToggleColorModeButton from "./components/ToggleColorModeButton";
 import { Folder, RoutingErrorProps, UserProps } from "./model/model";
+import { mode } from "@chakra-ui/theme-tools";
+
+
+
+export const customTheme = extendTheme({
+  styles: {
+    global: (props: any) => ({
+      "html, body": {
+        background: mode("white", "gray.900")(props),  //mode(light mode color, dark mode color)
+      },
+    }),
+  },
+})
+
 
 const App = () => {
   const [userProps, setUserProps] = useState<UserProps | undefined>(userContextInitialState);
@@ -17,7 +31,7 @@ const App = () => {
   const errorNav = <Navigate replace to={"/error"} />;
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <UserContext.Provider value={[userProps, setUserProps]}>
         <AppContext.Provider value={[appProps, setAppProps]}>
           <Routes>

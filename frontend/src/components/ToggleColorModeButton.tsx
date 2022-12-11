@@ -16,7 +16,7 @@ const ToggleColorModeButton = () => {
             boxSizing="border-box"
             padding="5px"
             bg="none"
-            colorScheme={"teal"}
+            colorScheme={"orange"}
             // color={buttonColor}
             // backgroundColor={buttonBackground}
             _hover={{ bg: buttonHoverBackground }}
