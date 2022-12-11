@@ -1,5 +1,4 @@
-import { Text, Container, Center, Button, HStack, VStack, Heading } from "@chakra-ui/react";
-import _ from "lodash";
+import { Button, Center, Heading, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
@@ -7,12 +6,12 @@ const ErrorPage = () => {
     return (
         <Center>
             <VStack>
-                <Heading color="teal.400"> Oops! An error occured.</Heading>
+                <Heading color="orange.400"> Oops! An error occured.</Heading>
                 <Button
                     borderRadius={5}
                     variant="solid"
-                    bg="teal.400"
-                    colorScheme="teal"
+                    bg="orange.400"
+                    colorScheme="orange"
                     width="full"
                     onClick={() => navigate("/login")}
                 >

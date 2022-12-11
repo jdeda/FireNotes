@@ -1,55 +1,99 @@
-import { Folder, Note } from "../model/model"
+import { FirebaseApp } from "firebase/app";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { firebaseApp, firebaseDB } from "../config/config";
+import { Folder, UserProps } from "../model/model";
+import { dataClient } from "./dataClient";
 
-type APIClient = {
-    getAllFolders(): Promise<Folder[]>,
-    getFolder(folderID: number): Promise<Folder>,
-    getNote(noteID: number): Promise<Note>,
-    updateFolder(folderID: number, folder: Folder): Promise<boolean>,
-    updateNote(folderID: number, noteID: number, note: Note): Promise<boolean>,
-    createNestedFolder(folderID: number): Promise<boolean>,
-    createFolder(): Promise<boolean>,
-    createNote(folderID: number): Promise<boolean>,
-    deleteFolder(folderID: number): Promise<boolean>,
-    deleteNote(folderID: number, noteId: number): Promise<boolean>
+function getCurrentAuthUser(app?: FirebaseApp | undefined): User {
+    const auth = getAuth(firebaseApp);
+    const user = auth.currentUser;
+    if (user === null) { throw new Error(`no user currrently authorized`); }
+    return user;
 }
 
-// TODO: localhost port should be set here somehow...
+type APIClient = {
+    signup(email: string, password: string): Promise<UserProps>,
+    signin(email: string, password: string): Promise<UserProps>,
+    signout(): Promise<boolean>,
+    saveAll(folders: Folder[]): Promise<boolean>,
+    getAllFolders(): Promise<Folder[]>,
+}
+
 const apiClient: APIClient = {
+    async saveAll(folders: Folder[]): Promise<boolean> {
+        const user = getCurrentAuthUser(firebaseApp);
+        const docRef = doc(firebaseDB, user.uid, "folders");
+        if (folders.length == 0) {
+            await updateDoc(docRef, {
+                folders: "[]"
+            });
+        }
+        else {
+            await updateDoc(docRef, {
+                folders: JSON.stringify(folders)
+            });
+        }
+        return true;
+    },
+
+    async signup(email: string, password: string): Promise<UserProps> {
+        const auth = getAuth(firebaseApp);
+        return createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const userProps: UserProps = {
+                    username: user.displayName ? user.displayName : "",
+                    email: email,
+                    user: user
+                };
+                return userProps;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+    },
+    async signin(email: string, password: string): Promise<UserProps> {
+        const auth = getAuth(firebaseApp);
+        return signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                const userProps: UserProps = {
+                    username: user.displayName ? user.displayName : "",
+                    email: email,
+                    user: user
+                };
+                return userProps;
+            })
+            .catch(error => {
+                throw new Error(error);
+            });
+
+    },
+    async signout(): Promise<boolean> {
+        const auth = getAuth(firebaseApp);
+        return signOut(auth).then(() => {
+            return true;
+        }).catch(error => {
+            throw new Error(error);
+        });
+    },
+    /**
+     * Fetches all folders belonging to currently auth'd user.
+     * Creates an empty folder collection for the user if 
+     * the user has no folder.
+     */
     async getAllFolders(): Promise<Folder[]> {
-        throw new Error("Function not implemented.")
-        const response = await fetch(`http://localhost:2000/api/folders`);
-        if (!response.ok) {
-            const message = `An error occurred: ${response.statusText}`;
-            alert(message);
+        const user = getCurrentAuthUser(firebaseApp);
+        const docRef = doc(firebaseDB, user.uid, "folders");
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const data = dataClient.dataToFolders(docSnap.data());
+            return data;
+        } else {
+            await setDoc(doc(firebaseDB, user.uid, "folders"), []);
             return [];
         }
-    },
-    async getFolder(folderID: number): Promise<Folder> {
-        throw new Error("Function not implemented.")
-    },
-    async getNote(noteID: number): Promise<Note> {
-        throw new Error("Function not implemented.")
-    },
-    async updateFolder(folderID: number, folder: Folder): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async updateNote(folderID: number, noteID: number, note: Note): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async createNestedFolder(folderID: number): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async createFolder(): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async createNote(folderID: number): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async deleteFolder(folderID: number): Promise<boolean> {
-        throw new Error("Function not implemented.")
-    },
-    async deleteNote(folderID: number, noteId: number): Promise<boolean> {
-        throw new Error("Function not implemented.")
     }
 }
 

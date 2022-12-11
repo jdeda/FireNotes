@@ -7,26 +7,25 @@ import { ChangeEvent, useContext, useState } from "react";
 import { FaLock, FaUserAlt } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { User } from "../model/model";
-
+import apiClient from "../clients/apiClient";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
-type LoginPageProps = {
+type SigninPageProps = {
     email: string,
     password: string,
-    loginReady: boolean
+    signinReady: boolean
 }
 
-const initialProps: LoginPageProps = {
+const initialProps: SigninPageProps = {
     email: "",
     password: "",
-    loginReady: false
+    signinReady: false
 }
 
-const LoginPage = () => {
-    const [props, setProps] = useState<LoginPageProps>(initialProps);
+const SigninPage = () => {
+    const [props, setProps] = useState<SigninPageProps>(initialProps);
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string>("");
     const [userProps, setUserProps] = useContext(UserContext);
@@ -35,41 +34,26 @@ const LoginPage = () => {
 
     const navigate = useNavigate();
 
-    const handleLogin = async () => {
-        const user: User = {
-            id: "1",
-            first_name: "jesse",
-            last_name: "deda",
-            username: "jdeda",
-            avatar: "foobar",
-        }
-        setUserProps(() => user);
-        navigate("/home");
-
-        // const testing = await apiClient.test();
-        // console.log(testing);
-        // return;
-
-        // console.log("react -- signing in")
-        // apiClient.signin(props.email, props.password).then(userProps => {
-        //     console.log(userProps);
-        //     setUserProps(() => userProps);
-        //     navigate("/home");
-
-        // }).catch(err => {
-        //     console.log("needs more protein");
-        //     console.log(err);
-        //     setError(() => err);
-        // });
+    const handleSignin = async () => {
+        console.log("react -- signing in")
+        apiClient.signin(props.email, props.password).then(userProps => {
+            console.log(userProps);
+            setUserProps(() => userProps);
+            navigate("/home");
+        }).catch(err => {
+            console.log("needs more protein");
+            console.log(err);
+            setError(() => err);
+        });
     }
 
-    function updateLoginReady(): void {
-        const loginReady = (props.email !== "" && props.password !== "");
+    function updateSigninReady(): void {
+        const signinReady = (props.email !== "" && props.password !== "");
         setProps((prevState) => {
             return {
                 email: prevState.email,
                 password: prevState.password,
-                loginReady: loginReady
+                signinReady: signinReady
             }
         });
     }
@@ -80,10 +64,10 @@ const LoginPage = () => {
             return {
                 email: newEmail,
                 password: prevState.password,
-                loginReady: prevState.loginReady
+                signinReady: prevState.signinReady
             }
         });
-        updateLoginReady();
+        updateSigninReady();
     }
 
     function updatePassword(e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void {
@@ -92,10 +76,10 @@ const LoginPage = () => {
             return {
                 email: prevState.email,
                 password: newPassword,
-                loginReady: prevState.loginReady
+                signinReady: prevState.signinReady
             }
         });
-        updateLoginReady();
+        updateSigninReady();
     }
     return (
         <Flex
@@ -113,8 +97,9 @@ const LoginPage = () => {
                 alignItems="center"
             >
 
-                <Image src="logo_00.png" width="20" alt="Oops!" />
-                <Heading color="teal.400">Welcome to Noteify!</Heading>
+                <Image src="newLogo.png" width="40" alt="Oops!" />
+                {/* <Image src="logo_00.png" width="20" alt="Oops!" /> */}
+                <Heading color="orange.400">Welcome to FireNotes!</Heading>
                 <Box minW={{ base: "60%", md: "400px" }}>
                     <Stack
                         spacing={4}
@@ -130,7 +115,7 @@ const LoginPage = () => {
                                     value={props.email}
                                     onChange={updateEmail}
 
-                                    focusBorderColor='teal.400'
+                                    focusBorderColor='orange.400'
                                     type="email"
                                     placeholder="Email"
                                 />
@@ -145,7 +130,7 @@ const LoginPage = () => {
                                 <Input
                                     value={props.password}
                                     onChange={updatePassword}
-                                    focusBorderColor='teal.400'
+                                    focusBorderColor='orange.400'
                                     type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                 />
@@ -164,24 +149,24 @@ const LoginPage = () => {
                             </InputGroup>
                         </FormControl>
                         <Button
-                            isDisabled={!props.loginReady}
+                            isDisabled={!props.signinReady}
                             borderRadius={5}
                             variant="solid"
-                            bg="teal.400"
-                            colorScheme="teal"
+                            bg="orange.400"
+                            colorScheme="orange"
                             width="full"
-                            onClick={handleLogin}
-                        >Login</Button>
+                            onClick={handleSignin}
+                        >Signin</Button>
                         <Link to="/signup">
                             <Button
                                 borderRadius={5}
                                 variant="link"
-                                color="teal.400"
-                                colorScheme="teal"
+                                color="orange.400"
+                                colorScheme="orange"
                                 width="full"
                             >Not Regisitered? Sign Up</Button>
                         </Link>
-                        {/* <Button colorScheme='teal' variant='link'>
+                        {/* <Button colorScheme='orange' variant='link'>
                             Not Regisitered? Sign Up
                         </Button> */}
 
@@ -192,6 +177,6 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default SigninPage;
 
 

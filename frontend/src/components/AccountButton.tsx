@@ -3,10 +3,7 @@ import { useContext, useState } from "react";
 import { HiLogout } from 'react-icons/hi';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-
-export type AccountButtonProps = {
-
-}
+import apiClient from "../clients/apiClient";
 
 const AccountButton = () => {
     const [userProps, setUserProps] = useContext(UserContext);
@@ -14,16 +11,15 @@ const AccountButton = () => {
     const navigate = useNavigate();
 
     const signOut = () => {
-        setUserProps(() => undefined);
-        navigate("/login");
-        // apiClient.signout().then(success => {
-        //     setUserProps(() => undefined);
-        //     navigate("/login");
-        // }).catch(err => {
-        //     console.log("needs more protein");
-        //     console.log(err);
-        //     setError(() => err);
-        // });
+        apiClient.signout().then(success => {
+            // apiClient.saveAll(appProps.folders);
+            setUserProps(() => undefined);
+            navigate("/login");
+        }).catch(err => {
+            console.log("needs more protein");
+            console.log(err);
+            setError(() => err);
+        });
     }
 
     return (
@@ -39,7 +35,7 @@ const AccountButton = () => {
             // _hover={{ bg: colorMode === 'light' ? 'gray.200' : 'gray.700' }}
             // backgroundColor={{ bg: colorMode !== 'light' ? 'gray.200' : 'gray.700' }}
             >
-                <Avatar bg="teal.500" />
+                <Avatar bg="orange.500" />
             </MenuButton>
             <MenuList alignItems={'center'}>
                 <Center>

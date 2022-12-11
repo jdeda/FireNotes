@@ -1,8 +1,5 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Button, useColorMode, useColorModeValue } from "@chakra-ui/react";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-
 
 const ToggleColorModeButton = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -19,7 +16,7 @@ const ToggleColorModeButton = () => {
             boxSizing="border-box"
             padding="5px"
             bg="none"
-            colorScheme={"teal"}
+            colorScheme={"orange"}
             // color={buttonColor}
             // backgroundColor={buttonBackground}
             _hover={{ bg: buttonHoverBackground }}
