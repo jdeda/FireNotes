@@ -1,6 +1,6 @@
 # FireNotes
 
-<img src="https://github.com/jdeda/FireNotes/blob/dev/imgs/FireNotes_02.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/FireNotes_02.png" alt="drawing" width="650"/>
 
 
 ## Welcome to FireNotes!
@@ -24,4 +24,13 @@ FireNotes is a simple note taking web app. Notes are plain text files stored in 
 - Vanilla React
 - React Router 6
 - React Context
+
+<br> 
+
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_01.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_02.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_03.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_04.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_05.png" alt="drawing" width="650"/>
+<img src="https://github.com/jdeda/FireNotes/blob/master/imgs/app_demo_06.png" alt="drawing" width="650"/>
 
