@@ -22,6 +22,7 @@ FireNotes is a simple note taking web app. Notes are plain text files stored in 
 
 ### 🛠 React-TS
 - Vanilla React
+- Typescript
 - React Router 6
 - React Context
 
