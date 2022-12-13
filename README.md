@@ -1,4 +1,4 @@
-# FireNotes
+# React-FireNotes
 
 <img src="https://github.com/jdeda/FireNotes/blob/master/imgs/FireNotes_02.png" alt="drawing" width="650"/>
 
