@@ -4,7 +4,7 @@
 
 
 ## Welcome to FireNotes!
-FireNotes is a simple note taking web app. Notes are plain text files stored in the cloud, using Google's Firebase and Firestore tools! See below for essential details about the architecture, design, and feature of the app!
+FireNotes is a simple note taking web app. Notes are plain text files stored in the cloud, using Google's Firebase and Firestore! See below for essential details about the architecture, design, and feature of the app!
 
 ### 🔥 Firebase Authentication
 - Sign In
